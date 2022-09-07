@@ -1,6 +1,17 @@
 using Microsoft.AspNetCore.StaticFiles;
+using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console(theme: AnsiConsoleTheme.Code)
+    .WriteTo.File("logs/cityInfo.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+//builder.Logging.ClearProviders();
+//builder.Logging.AddConsole();
+builder.Host.UseSerilog();
 
 // Add services to the container.
 

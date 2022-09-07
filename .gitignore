@@ -269,3 +269,6 @@ ModelManifest.xml
 
 *.ncrunchproject
 *.ncrunchsolution
+
+# CityInfo.Api
+CityInfo.Api/logs
