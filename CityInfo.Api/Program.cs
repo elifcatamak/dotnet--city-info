@@ -1,3 +1,4 @@
+using CityInfo.Api.Services;
 using Microsoft.AspNetCore.StaticFiles;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -22,6 +23,12 @@ builder.Services.AddControllers(options => { options.ReturnHttpNotAcceptable = t
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
+
+#if DEBUG
+builder.Services.AddTransient<IMailService, LocalMailService>();
+#else
+builder.Services.AddTransient<IMailService, CloudMailService>();
+#endif
 
 var app = builder.Build();
 
