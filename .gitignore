@@ -272,3 +272,4 @@ ModelManifest.xml
 
 # CityInfo.Api
 CityInfo.Api/logs
+CityInfo.Api/CityInfo.db
