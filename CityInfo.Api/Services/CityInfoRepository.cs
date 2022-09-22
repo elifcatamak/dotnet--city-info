@@ -37,7 +37,7 @@ public class CityInfoRepository : ICityInfoRepository
         return result;
     }
 
-    public async Task<IEnumerable<PointOfInterest>> GetPointsOfInterestForCity(int cityId)
+    public async Task<IEnumerable<PointOfInterest>> GetPointsOfInterestForCityAsync(int cityId)
     {
         var result = await _context.PointsOfInterest.Where(p => p.CityId == cityId)
             .ToListAsync();
@@ -45,11 +45,40 @@ public class CityInfoRepository : ICityInfoRepository
         return result;
     }
 
-    public async Task<PointOfInterest?> GetPointOfInterestForCity(int cityId, int pointOfInterestId)
+    public async Task<PointOfInterest?> GetPointOfInterestForCityAsync(int cityId, int pointOfInterestId)
     {
         var result = await _context.PointsOfInterest.FirstOrDefaultAsync(
             p => p.CityId == cityId && p.Id == pointOfInterestId);
 
         return result;
+    }
+
+    public async Task<bool> CityExistsAsync(int cityId)
+    {
+        var result = await _context.Cities.AnyAsync(c => c.Id == cityId);
+
+        return result;
+    }
+
+    public async Task AddPointOfInterestForCityAsync(int cityId, PointOfInterest pointOfInterest)
+    {
+        var city = await GetCityAsync(cityId, false);
+
+        if (city != null)
+        {
+            city.PointsOfInterest.Add(pointOfInterest);
+        }
+    }
+
+    public void DeletePointOfInterest(PointOfInterest pointOfInterest)
+    {
+        _context.PointsOfInterest.Remove(pointOfInterest);
+    }
+
+    public async Task<bool> SaveChangesAsync()
+    {
+        var result = await _context.SaveChangesAsync();
+
+        return result >= 0;
     }
 }
