@@ -20,6 +20,34 @@ public class CityInfoRepository : ICityInfoRepository
         return result;
     }
 
+    public async Task<IEnumerable<City>> GetCitiesAsync(string? name, string? searchQuery)
+    {
+        if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(searchQuery))
+        {
+            return await GetCitiesAsync();
+        }
+
+        var cityCollection = _context.Cities.AsQueryable();
+
+        if (!string.IsNullOrEmpty(name))
+        {
+            name = name.Trim();
+            cityCollection = cityCollection.Where(c => c.Name == name);
+        }
+
+        if (!string.IsNullOrEmpty(searchQuery))
+        {
+            searchQuery = searchQuery.Trim();
+            cityCollection = cityCollection.Where(c => c.Name.Contains(searchQuery)
+                                                       || (c.Description != null &&
+                                                           c.Description.Contains(searchQuery)));
+        }
+
+        var result = await cityCollection.OrderBy(c => c.Name).ToListAsync();
+
+        return result;
+    }
+
     public async Task<City?> GetCityAsync(int cityId, bool includePointsOfInterest)
     {
         City? result;
