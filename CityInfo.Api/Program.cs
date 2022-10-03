@@ -59,6 +59,13 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer(
         };
     });
 
+builder.Services.AddAuthorization(options =>
+    options.AddPolicy("MustBeFromAntwerp", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("city", "Antwerp");
+    }));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

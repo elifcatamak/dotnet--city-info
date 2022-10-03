@@ -106,6 +106,13 @@ public class CityInfoRepository : ICityInfoRepository
         _context.PointsOfInterest.Remove(pointOfInterest);
     }
 
+    public async Task<bool> CityNameMatchesCityId(string? cityName, int cityId)
+    {
+        var result = await _context.Cities.AnyAsync(c => c.Id == cityId && c.Name == cityName);
+
+        return result;
+    }
+
     public async Task<bool> SaveChangesAsync()
     {
         var result = await _context.SaveChangesAsync();
