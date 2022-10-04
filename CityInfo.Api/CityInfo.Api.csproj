@@ -6,11 +6,20 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <DocumentationFile>CityInfo.Api.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DocumentationFile>CityInfo.Api.xml</DocumentationFile>
+    </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9"/>
         <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="6.0.8"/>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.8"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.8"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8">
